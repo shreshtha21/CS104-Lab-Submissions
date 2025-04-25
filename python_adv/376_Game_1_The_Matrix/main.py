@@ -29,6 +29,7 @@ def task2(matrix):
 def task3(matrix, num = 0, padding = 3):
     '''return the padded matrix'''
     matrix3 = matrix.copy()
+#ye na bhi likhe toh chlega, koi kaam ka ni h
     for i in range(0,padding):
         for j in range(0,matrix3.shape[0]):
             matrix3[i,j] = num
@@ -40,6 +41,7 @@ def task3(matrix, num = 0, padding = 3):
             matrix3[i,j] = num
         for j in range(matrix3.shape[0]-padding, matrix3.shape[0]):
             matrix3[i,j] = num
+#yaha tk
     return np.pad(matrix, pad_width=padding, mode='constant', constant_values=num)
 
 if __name__ == '__main__':
