@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[rightcaption]{sidecap}
+\usepackage{verbatim}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage [ a4paper , hmargin =1.2 in , bottom =1.5 in ] { geometry }
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\addbibresource{references.bib}
+\graphicspath{{images/}} 
+
+% Add header and footer code here
+% You may also add path to the images optionally
+
+\begin{document}
+
+% preamble
+\title{Transformation of R.V.\\and\\Multivariate Gaussian}
+\author{Shreshtha Gupta}
+\date{10-04-2025}
+\maketitle
+% below line auto generates the table of contents
+% thank me for your free 1 mark
+\tableofcontents
+\clearpage
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Transformation of R.V. and Multivariate Gaussian}       
+\cfoot{Page \thepage}  
+%code of section 1, with lists
+\section{Introduction}
+In this article, we will study about the following topics of statistics:
+\begin{itemize}
+\item Transformation of random variables
+\item Multivariate Gaussian random variable
+\end{itemize}
+%code of section 2, make appr
+\section{Transformation of Random Variable}
+Given any continuous r.v. X with PDF \(P_{X}(x)\) and given any function \(g(X)\)(defined on range of X) we intend to find PDF associated with the r.v. \(Y = g(X)\).
+For simplicity, let's assume g(.) is monotonic increasing.
+Then by probability mass conservation,
+\[ P(a < X < b)=P(g(a) < Y < g(b)) = \int_{g(a)}^{g(b)}Q(y)dy \]
+Using \(y = g(x)\), we get the below relation upon simplification
+\[Q(y) = P(g^{-1}(y))\frac{d(g^{-1}(y))}{dy}\]
+To handle monotonically decreasing g(.) as well\footnote{we could have used modulus operator but I wanted things to look more complicated},
+%para
+% \[\]
+%para.....
+\begin{equation}
+Q(y) =
+\begin{cases}
++P(g^{-1}(y))\frac{d(g^{-1}(y))}{dy} & \text{if g(.) monotonically increasing} \\
+-P(g^{-1}(y))\frac{d(g^{-1}(y))}{dy} & \text{if g(.) monotonically decreasing}
+\end{cases}
+\end{equation}
+For more information, refer \cite{transformations} 
+
+
+
+%     % code for subfigure, label them for using references
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{multivariate_gaussian.png}
+        \caption{Example 1}
+        \label{1a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{multivariate_normal.png}
+        \caption{Example 2}
+        \label{1b}
+    \end{subfigure}
+\end{figure}
+
+%code for section 3
+\section{Multi-variate Gaussian Distribution}
+\subsection{Definition}
+Let X be a vector of random variables of dimension D.
+A r.v. X has a joint PDF as multi-variate Gaussian distribution $\exists$ finite i.i.d. standard Gaussian
+ r.v. $W_{1},W_{2},...W_{N}$ with $N > D$ such that
+ \[X = AW + \mu\]
+Refer fig[\ref{1a}] and fig[\ref{1b}] for visual examples. This has many applications in machine learning, refer \cite{rasmussen} and \cite{distill}
+\subsection{A is diagonal}
+In this case, the $X_{i}$ are independent. The standard deviation of distribution of $X_{i}$ is $A_{ii}$.
+\subsection{A is non-singular square matrix}
+Similar to univariate case, where scaling was determined by $\frac{d(g^{-1}(y))}{dy}$, the scaling for multi-variate case is determined by determinant of matrix of derivatives, Jacobian matrix.
+Also, $W = A^{-1}X$, which is a linear transformation of vector X. $A^{-1}$ maps a hypercube to parallelepiped. If the vectors describing the hypercube are along cardinal axis, then the parallelepiped is described by vectors which are columns of $A^{-1}$.
+We intend to find the volume of the parallelepiped formed due to this transformation.
+Claim: The volume of parallelepiped described by column vectors of matrix $A^{-1}$ is given by
+det($A^{-1}$)
+Proof: Addition of any scaled column of a matrix M to another column does not change the determinant.
+Therefore by Gram-Schmidt orthogonalization process the columns of $A^{-1}$ can be constructed to be orthogonal to each other, without changing the determinant. Then multiplying by an orthogonal matrix would rotate the orthogonal vectors(to align them with cardinal axis), and this operation would not change the determinant as well. Now the result matrix is diagonal square matrix and the volume of the parallelepiped described by the column vectors is given by product of diagonal elements.
+From the above result, an infinitesimal volume $\delta^{D}$ after transformation becomes $\delta^{D}$ · det($A^{-1}$). Let $C =A·A^{T}$. \\
+Then det(A) = $\sqrt{det(C)}$. The above expression can we rewritten as
+\[ P(X) = \frac{1}{(2\pi)^{\frac{D}{2}}} . \frac{1}{\sqrt{det(C)}} . exp(0.5 . X^{T}. C^{-1} . X)\]
+%
+\begin{tabular}{|l|1||l|}
+% % ... fill up table
+\hline
+\multicolumn{3}{|c|}{Sample values of bivariate normal distribution }\\
+\hline
+x & y & f(x,y) \\
+\hline
+0              & 0          & 1.6 \\
+0 & 1 &  0.096 \\
+$\sqrt{2}$ & $\sqrt{2}$ & 0.02 \\
+\hline
+\end{tabular}
+% print the bibliography
+\printbibliography{}
+\end{document}

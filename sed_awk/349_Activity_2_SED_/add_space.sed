@@ -1,0 +1,1 @@
+s/message\s*\+=\s*"(.*)\.\s*"/message\+="\1\. "/g
