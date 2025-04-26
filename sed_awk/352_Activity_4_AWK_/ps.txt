@@ -1,0 +1,76 @@
+Activity 4 (AWK)
+You are given a log file (log.txt) that records events in a system where items are produced and consumed. The file consists of statements in the following format:
+
+Produced x by master y
+Consumed x by worker y
+Master y exiting
+Worker y exiting
+Each item produced is added to a buffer, and each consumed item is removed from it. Your task is to verify the correctness of this sequence using an AWK script (check.awk).
+
+
+
+Given Variables
+The following parameters define system constraints:
+
+TOTAL: Total number of items to produce (0 to TOTAL-1).
+BUF_SIZE: Maximum size of the buffer.
+NUM_MAS: Number of master threads (0 to NUM_MAS-1).
+NUM_WOR: Number of worker threads (0 to NUM_WOR-1).
+
+
+Correctness Conditions
+Your script must ensure that:
+
+Each item [0 to TOTAL-1] is produced and consumed exactly once.
+Each item is consumed only after it is produced.
+The buffer size never exceeds BUF_SIZE at any point.
+For each Produced x by master y statement:
+y is a valid master thread (y NUM_MAS-1).
+y must not have exited before this statement.
+For each Consumed x by worker y statement:
+y is a valid worker thread (y NUM_WOR-1).
+y must not have exited before this statement.
+Each master and worker thread exits exactly once and does not produce/consume after exiting.
+
+
+Expected Output
+For each line in log.txt, print the buffer contents (space-separated, in any order) after the statement takes effect.
+At the end, print a single word:
+"YES" if the log is correct.
+"NO" if any of the conditions are violated.
+Running Instructions
+Command will be run with
+
+awk -v TOTAL=3 -v BUF_SIZE=3 -v NUM_MAS=2 -v NUM_WOR=2 -f check.awk log.txt
+Note the values of variables may differ and are found in params.txt
+
+
+Example
+Input (log.txt)
+Produced 0 by master 0
+Produced 1 by master 0
+Consumed 0 by worker 1
+Produced 2 by master 1
+Consumed 1 by worker 0
+Produced 3 by master 1
+Consumed 2 by worker 1
+Master 0 exiting
+Consumed 3 by worker 0
+Worker 0 exiting
+Worker 1 exiting
+Master 1 exiting
+Output (check.awk result)
+0  
+0 1  
+1  
+1 2  
+2  
+2 3  
+3  
+3  
+
+
+
+
+YES  
+Here, the log is correct, so the final output is "YES".
